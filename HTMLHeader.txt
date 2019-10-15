@@ -3,6 +3,8 @@
 <title>Alien Arena Server Status</title>
 </head>
 <body>
-<table>
-<tr><td>Host Name</td><td>Map Name</td><td>Max Clients</td><td>Game Date</td><td>Alien Arena Version</td></tr>
+<h1>Status of Our Alien Arena Servers</h1>
+<p>&nbsp;</p>
+<table border=1>
+<tr><td><b>Game Name</b></td><td><b>Map Name</b></td><td><b>Max Clients</b></td><td><b>Game Date</b></td><td><b>Alien Arena Version</b></td></tr>
 

@@ -7,8 +7,8 @@ use JSON qw( );
 use Data::Dumper;
 
 # Servers to poll
-#my @ServerList = ("fpsgpc", "fpsgc2");
-my @ServerList = ("fpsgpc");
+my @ServerList = ("fpsgpc", "fgpcg", "fgpcs", "fgcc", "fgci", "fpgaclt");
+#my @ServerList = ("fpsgpc");
 my $HTML_FIle = "/var/www/html/ServerStatus.html";
 
 # Email for API updates

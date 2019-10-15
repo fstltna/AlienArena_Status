@@ -27,7 +27,7 @@ my $HTMLFooterFile = "/root/AlienArena_Status/HTMLFooter.txt";
 system("cp $HTMLHeaderFile $TempOutputFile");
 
 print "Alien Arena Server Status - $AAS_Version\n";
-print "=================================\n";
+print "====================================\n";
 
 foreach $CurServer (@ServerList)
 {
@@ -39,13 +39,15 @@ foreach $CurServer (@ServerList)
 	unlink($EmailAddress);
 	system("wget $StatusURL > /dev/null 2>&1");
 
+	my $json_fh;
 	my $json_text = do
 	{
-		open(my $json_fh, "<:encoding(UTF-8)", $EmailAddress)
+		open($json_fh, "<:encoding(UTF-8)", $EmailAddress)
 			or die("Can't open $EmailAddress\": $!\n");
 		local $/;
 		<$json_fh>
 	};
+	close($json_fh);
 	# print "Read in $json_text\n";
 
 	my $json = JSON->new;
@@ -67,7 +69,7 @@ foreach $CurServer (@ServerList)
 	# print "version: $aaversion\n";
 	$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
 	# print "CurLine = $CurLine\n";
-#system("echo \"$CurLine\" >> $TempOutputFile);
+	system("echo \"$CurLine\" >> $TempOutputFile");
 }
 
 system("cat $HTMLFooterFile >> $TempOutputFile");

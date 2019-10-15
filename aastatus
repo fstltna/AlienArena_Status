@@ -32,12 +32,12 @@ print "=================================\n";
 foreach $CurServer (@ServerList)
 {
 	my $CurLine = "";
-print "CurLine = $CurLine\n";
+#print "CurLine = $CurLine\n";
 
 	$StatusURL ="http://api.berycz.net/alienarena/detail/$CurServer/$EmailAddress";
 	# Remove the current file if it exists
 	unlink($EmailAddress);
-	system("wget $StatusURL");
+	system("wget $StatusURL > /dev/null 2>&1");
 
 	my $json_text = do
 	{
@@ -46,12 +46,12 @@ print "CurLine = $CurLine\n";
 		local $/;
 		<$json_fh>
 	};
-print "Read in $json_text\n";
+	# print "Read in $json_text\n";
 
 	my $json = JSON->new;
 	my $data = $json->decode($json_text);
-print "\nData  $data\n";
-print Dumper($data);
+#print "\nData  $data\n";
+#print Dumper($data);
 
 	my $NumKeys = keys($data);
 	my $gamedate = $data->{"gamedate"};
@@ -59,14 +59,14 @@ print Dumper($data);
 	my $maxclients = $data->{"maxclients"};
 	my $aaversion = $data->{"version"};
 	my $hostname = $data->{"hostname"};
-print "Num Keys: $NumKeys\n";
-print "date: $gamedate\n";
-print "Host Name: $hostname\n";
-print "map: $mapname\n";
-print "max clients: $maxclients\n";
-print "version: $aaversion\n";
-$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
-print "CurLine = $CurLine\n";
+	# print "Num Keys: $NumKeys\n";
+	# print "date: $gamedate\n";
+	# print "Host Name: $hostname\n";
+	# print "map: $mapname\n";
+	# print "max clients: $maxclients\n";
+	# print "version: $aaversion\n";
+	$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
+	# print "CurLine = $CurLine\n";
 #system("echo \"$CurLine\" >> $TempOutputFile);
 }
 

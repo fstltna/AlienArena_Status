@@ -1,0 +1,75 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use JSON qw( );
+use Data::Dumper;
+
+# Servers to poll
+#my @ServerList = ("fpsgpc", "fpsgc2");
+my @ServerList = ("fpsgpc");
+my $HTML_FIle = "/var/www/html/ServerStatus.html";
+
+# Email for API updates
+my $EmailAddress = "fstltna\@yahoo.com";
+
+# ===================== No Changes Below Here
+
+my $StatusURL = "";
+my $CurServer = "";
+my $TempOutputFile = "/root/AlienArena_Status/latest.html";
+my $HTMLHeaderFile = "/root/AlienArena_Status/HTMLHeader.txt";
+my $HTMLFooterFile = "/root/AlienArena_Status/HTMLFooter.txt";
+
+# Set up header
+system("cp $HTMLHeaderFile $TempOutputFile");
+
+foreach $CurServer (@ServerList)
+{
+	my $CurLine = "";
+print "CurLine = $CurLine\n";
+
+	$StatusURL ="http://api.berycz.net/alienarena/detail/$CurServer/$EmailAddress";
+	# Remove the current file if it exists
+	unlink($EmailAddress);
+	system("wget $StatusURL");
+
+	my $json_text = do
+	{
+		open(my $json_fh, "<:encoding(UTF-8)", $EmailAddress)
+			or die("Can't open $EmailAddress\": $!\n");
+		local $/;
+		<$json_fh>
+	};
+print "Read in $json_text\n";
+
+	my $json = JSON->new;
+	my $data = $json->decode($json_text);
+print "\nData  $data\n";
+print Dumper($data);
+
+	my $NumKeys = keys($data);
+	my $gamedate = $data->{"gamedate"};
+	my $mapname = $data->{"mapname"};
+	my $maxclients = $data->{"maxclients"};
+	my $aaversion = $data->{"version"};
+	my $hostname = $data->{"hostname"};
+print "Num Keys: $NumKeys\n";
+print "date: $gamedate\n";
+print "Host Name: $hostname\n";
+print "map: $mapname\n";
+print "max clients: $maxclients\n";
+print "version: $aaversion\n";
+$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
+print "CurLine = $CurLine\n";
+#system("echo \"$CurLine\" >> $TempOutputFile);
+}
+
+system("cat $HTMLFooterFile >> $TempOutputFile");
+
+# Move the temp file to the HTML file location
+system("mv $TempOutputFile $HTML_FIle");
+
+exit 0;
+

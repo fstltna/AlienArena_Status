@@ -1,0 +1,8 @@
+<html>
+<head>
+<title>Alien Arena Server Status</title>
+</head>
+<body>
+<table>
+<tr><td>Host Name</td><td>Map Name</td><td>Max Clients</td><td>Game Date</td><td>Alien Arena Version</td></tr>
+

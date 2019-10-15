@@ -26,9 +26,11 @@ my $HTMLFooterFile = "/root/AlienArena_Status/HTMLFooter.txt";
 # Set up header
 system("cp $HTMLHeaderFile $TempOutputFile");
 
+open(my $LinePost, '>>', $TempOutputFile) || die "Could not append to '$TempOutputFile' $!";
+
 print "Alien Arena Server Status - $AAS_Version\n";
 print "====================================\n";
-
+print "Hostname\t\tMap Name\tMax\tGame Date\tGame Version\n";
 foreach $CurServer (@ServerList)
 {
 	my $CurLine = "";
@@ -68,9 +70,12 @@ foreach $CurServer (@ServerList)
 	# print "max clients: $maxclients\n";
 	# print "version: $aaversion\n";
 	$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
+	print "$hostname\t$mapname\t$maxclients\t$gamedate\t$aaversion\n";
 	# print "CurLine = $CurLine\n";
-	system("echo \"$CurLine\" >> $TempOutputFile");
+	#system("echo \"$CurLine\" >> $TempOutputFile");	# Was Working ZZZ
+	print $LinePost $CurLine;	# Was Working ZZZ
 }
+close($LinePost);
 
 system("cat $HTMLFooterFile >> $TempOutputFile");
 

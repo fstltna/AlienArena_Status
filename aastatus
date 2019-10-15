@@ -16,6 +16,7 @@ my $EmailAddress = "fstltna\@yahoo.com";
 
 # ===================== No Changes Below Here
 
+my $AAS_Version = "1.0.0";
 my $StatusURL = "";
 my $CurServer = "";
 my $TempOutputFile = "/root/AlienArena_Status/latest.html";
@@ -24,6 +25,9 @@ my $HTMLFooterFile = "/root/AlienArena_Status/HTMLFooter.txt";
 
 # Set up header
 system("cp $HTMLHeaderFile $TempOutputFile");
+
+print "Alien Arena Server Status - $AAS_Version\n";
+print "=================================\n";
 
 foreach $CurServer (@ServerList)
 {

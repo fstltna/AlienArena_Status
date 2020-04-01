@@ -7,16 +7,22 @@ use JSON qw( );
 use Data::Dumper;
 
 # Servers to poll
-my @ServerList = ("fpsgpc", "fgpcg", "fgpcs", "fgcc", "fgci", "fpgaclt");
-#my @ServerList = ("fpsgpc");
+my @ServerList = ("gpc", "gpclg", "gpci", "gpcs", "gpcactf", "gpcg", "gpctact", "gpcc", "gpct", "gpcusctf", "gpcusti", "gpcuktdm");
 my $HTML_FIle = "/var/www/html/ServerStatus.html";
 
 # Email for API updates
 my $EmailAddress = "fstltna\@yahoo.com";
 
 # ===================== No Changes Below Here
+my $DownOnly = 0;
+if ($ARGV[0])
+{
+	$DownOnly = -1;
+}
 
-my $AAS_Version = "1.0.0";
+print "mode = $DownOnly\n";
+
+my $AAS_Version = "2.0.0";
 my $StatusURL = "";
 my $CurServer = "";
 my $TempOutputFile = "/root/AlienArena_Status/latest.html";
@@ -34,8 +40,6 @@ print "Hostname\t\tMap Name\tMax\tGame Date\tGame Version\n";
 foreach $CurServer (@ServerList)
 {
 	my $CurLine = "";
-#print "CurLine = $CurLine\n";
-
 	$StatusURL ="http://api.berycz.net/alienarena/detail/$CurServer/$EmailAddress";
 	# Remove the current file if it exists
 	unlink($EmailAddress);
@@ -69,11 +73,23 @@ foreach $CurServer (@ServerList)
 	# print "map: $mapname\n";
 	# print "max clients: $maxclients\n";
 	# print "version: $aaversion\n";
-	$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
-	print "$hostname\t$mapname\t$maxclients\t$gamedate\t$aaversion\n";
-	# print "CurLine = $CurLine\n";
-	#system("echo \"$CurLine\" >> $TempOutputFile");	# Was Working ZZZ
-	print $LinePost $CurLine;	# Was Working ZZZ
+	if ($hostname)
+	{
+		if ($DownOnly == 0)
+		{
+			$CurLine = "<tr><td>$hostname</td><td>$mapname</td><td>$maxclients</td><td>$gamedate</td><td>$aaversion</td></tr>";
+			print "$hostname\t$mapname\t$maxclients\t$gamedate\t$aaversion\n";
+			# print "CurLine = $CurLine\n";
+			#system("echo \"$CurLine\" >> $TempOutputFile");	# Was Working ZZZ
+			print $LinePost $CurLine;
+		}
+	}
+	else
+	{
+		print "Server $CurServer is down\n";
+		$CurLine = "<tr><td>$CurServer is down</td><td></td><td></td><td></td><td></td></tr>";
+		print $LinePost $CurLine;
+	}
 }
 close($LinePost);
 

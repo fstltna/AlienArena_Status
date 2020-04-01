@@ -13,6 +13,20 @@ my $HTML_FIle = "/var/www/html/ServerStatus.html";
 # Email for API updates
 my $EmailAddress = "fstltna\@yahoo.com";
 
+# Set up server mapping hash
+my %ServerName = ( 'gpctact' => 'FPS GamePlayer Club (Tactical)',
+		   'gpclg' => 'FPS GamePlayer Club - Low Gravity',
+		   'gpci' => 'FPS GamePlayer Club - India',
+		   'gpcs' => 'FPS GamePlayer Club - Singapore',
+		   'gpcactf' => 'FPS GamePlayer Club - Australia (CTF)',
+		   'gpcg' => 'FPS GamePlayer Club - Germany',
+		   'gpc' => 'FPS GamePlayer Club',
+		   'gpcc' => 'FPS GamePlayer Club - Canada',
+		   'gpct' => 'FPS GamePlayer Club - Tokyo',
+		   'gpcusctf' => 'FPS GamePlayer Club - USA (CTF)',
+		   'gpcusti' => 'FPS GamePlayer Club - USA (Team Instagib)',
+		   'gpcuktdm' => 'FPS GamePlayer Club - UK (Team DM)');
+
 # ===================== No Changes Below Here
 my $DownOnly = 0;
 if ($ARGV[0])
@@ -87,7 +101,14 @@ foreach $CurServer (@ServerList)
 	else
 	{
 		print "Server $CurServer is down\n";
-		$CurLine = "<tr><td>$CurServer is down</td><td></td><td></td><td></td><td></td></tr>";
+		if ($ServerName{$CurServer})
+		{
+			$CurLine = "<tr><td>$ServerName{$CurServer} - $CurServer is down</td><td></td><td></td><td></td><td></td></tr>";
+		}
+		else
+		{
+			$CurLine = "<tr><td>$CurServer is down</td><td></td><td></td><td></td><td></td></tr>";
+		}
 		print $LinePost $CurLine;
 	}
 }

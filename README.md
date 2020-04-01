@@ -1,4 +1,4 @@
-# Alien Arena Server Status Checker (1.0.0)
+# Alien Arena Server Status Checker (2.0.0)
 Allows you to get the status of your Alien Arena server(s) -  Official support sites: [Official Github Repo](https://github.com/fstltna/AlienArena_Status) - [Official Forum](https://alienarena.gameplayer.club/index.php/forum/alien-arena-tools)
 
 ---
@@ -8,7 +8,7 @@ Allows you to get the status of your Alien Arena server(s) -  Official support s
 
 I then suggest you add this directory (AlienArena_Status) into your path, so that you can just run "git pull" to upgrade to the latest version aastatus as updates come out.
 
-Add this to your crontab file:
+Add this to your crontab file (put path where you extracted this archive):
 
 	10 1 * * * /root/AlienArena_Status/aastatus
 	

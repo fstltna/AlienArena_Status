@@ -34,9 +34,9 @@ if ($ARGV[0])
 	$DownOnly = -1;
 }
 
-print "mode = $DownOnly\n";
+#print "mode = $DownOnly\n";
 
-my $AAS_Version = "2.0.0";
+my $AAS_Version = "2.1.0";
 my $StatusURL = "";
 my $CurServer = "";
 my $TempOutputFile = "/root/AlienArena_Status/latest.html";
@@ -48,7 +48,15 @@ system("cp $HTMLHeaderFile $TempOutputFile");
 
 open(my $LinePost, '>>', $TempOutputFile) || die "Could not append to '$TempOutputFile' $!";
 
-print "Alien Arena Server Status - $AAS_Version\n";
+if ($DownOnly == 0)
+{
+	print "Alien Arena Server Status - $AAS_Version\n";
+}
+else
+{
+	print "Down Alien Arena Servers - $AAS_Version\n";
+}
+
 print "====================================\n";
 print "Hostname\t\tMap Name\tMax\tGame Date\tGame Version\n";
 foreach $CurServer (@ServerList)
